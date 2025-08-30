@@ -52,7 +52,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     Emitter<ProductState> emit,
   ) async {
     emit(ProductLoading());
-    try {
+    try{
       await deleteProduct.execute(event.id);
       final products = await getAllProducts.execute();
       emit(ProductLoaded(products));

@@ -1,10 +1,12 @@
-import 'package:clean_architecture/data/repositories/product_repository_impl.dart';
-import 'package:clean_architecture/domain/usecases/delete_product.dart';
-import 'package:clean_architecture/domain/usecases/get_all_products.dart';
-import 'package:clean_architecture/domain/usecases/save_product.dart';
-import 'package:clean_architecture/presentation/bloc/product_bloc.dart';
-import 'package:clean_architecture/presentation/bloc/product_event.dart';
-import 'package:clean_architecture/presentation/pages/product_list_page.dart';
+import 'package:clean_architecture/data/repositories/user_repository_impl.dart';
+import 'package:clean_architecture/domain/usecases/spent/add_fixed_expense.dart';
+import 'package:clean_architecture/domain/usecases/spent/add_variable_expense.dart';
+import 'package:clean_architecture/domain/usecases/spent/remove_expense.dart';
+import 'package:clean_architecture/domain/usecases/user/get_user_by_id.dart';
+import 'package:clean_architecture/domain/usecases/user/save_user.dart';
+import 'package:clean_architecture/presentation/bloc/user/user_bloc.dart';
+import 'package:clean_architecture/presentation/bloc/user/user_event.dart' hide SaveUser, AddFixedExpense, AddVariableExpense, RemoveExpense;
+import 'package:clean_architecture/presentation/pages/finance_home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,26 +19,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Crear instancias de las dependencias
-    final productRepository = ProductRepositoryImpl();
-    final getAllProducts = GetAllProducts(productRepository);
-    final saveProduct = SaveProduct(productRepository);
-    final deleteProduct = DeleteProduct(productRepository);
+    final userRepository = UserRepositoryImpl();
 
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Clean Architecture',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        useMaterial3: false,
-      ),
+      title: 'Presupuesto Amigable',
+      theme: ThemeData(primarySwatch: Colors.blue),
       home: BlocProvider(
-        create: (context) => ProductBloc(
-          getAllProducts: getAllProducts,
-          saveProduct: saveProduct,
-          deleteProduct: deleteProduct,
-        )..add(LoadProducts()),
-        child: const ProductListPage(),
+        create: (context) => UserBloc(
+          saveUser: SaveUser(userRepository),
+          getUserById: GetUserById(userRepository),
+          addFixedExpense: AddFixedExpense(userRepository),
+          addVariableExpense: AddVariableExpense(userRepository),
+          removeExpense: RemoveExpense(userRepository),
+        )..add(LoadUser()),  // Carga inicial
+        child: const FinanceHomePage(),
       ),
     );
   }
