@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
     final userRepository = UserRepositoryImpl();
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Presupuesto Amigable',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: BlocProvider(

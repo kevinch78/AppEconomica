@@ -19,7 +19,7 @@ class FinanceHomePage extends StatelessWidget {
       backgroundColor: const Color(0xFFF5F5F5),
       appBar: AppBar(
         title: const Text(
-          "Mi Dinero 💰",
+          "Your money Baby💰",
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.white,
